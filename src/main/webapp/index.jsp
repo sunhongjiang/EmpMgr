@@ -5,6 +5,7 @@
 <!-- jsp指令 -->
 <%@ page
 	import="java.util.*, java.text.*, com.cheer.empmgrsystem.domain.*, com.cheer.empmgrsystem.service.*"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,10 +14,14 @@
 </style>
 </head>
 <body>
+	<%
+	    EmpService empService = (EmpService)application.getAttribute("empService");
+	    pageContext.setAttribute("empList", empService.getAll());
+	%>
 	<div class="head">
 		<hr />
 		<span> <a href="login.jsp">重新登陆 </a></span> <span><a
-			href="servlet/logout"> 注销</a></span> <span style="text-align: rigth">
+			href="servlet/logout"> 注销</a></span> <span style="text-align: right">
 			<a href="add.jsp"> 新增</a>
 		</span> <br />
 		<hr />
@@ -34,26 +39,19 @@
 			<td>操作</td>
 		</tr>
 
-		<%
-		    EmpService empService = (EmpService)application.getAttribute("empService");
+		<c:forEach var="emp" items="${empList}">
+			<tr>
+				<td>${emp.empno}</td>
+				<td>${emp.ename}</td>
+				<td>${emp.job}</td>
+				<td>${emp.hiredate}</td>
+				<td>${emp.sal}</td>
+				<td><a href="servlet/delEmp?empno=${emp.empno}">删除</a></td>
+				<td><a href="update.jsp">修改</a></td>
+			</tr>
+		</c:forEach>
 
-		    SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-		    for (Emp emp : empService.getAll())
-		    {
-		%>
-		<tr>
-			<td><%=emp.getEmpno()%></td>
-			<td><%=emp.getEname()%></td>
-			<td><%=emp.getJob()%></td>
-			<td><%=emp.getHiredate() == null ? "" : df.format(emp.getHiredate())%></td>
-			<td><%=emp.getSal()%></td>
-			<td><a href="servlet/delEmp?empno=<%=emp.getEmpno()%>">删除</a></td>
-			<td><a href="servlet/updateEmp?empno=<%=emp.getEmpno()%>">修改</a></td>
 
-		</tr>
-		<%
-		    }
-		%>
 	</table>
 
 
