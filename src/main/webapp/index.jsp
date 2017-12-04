@@ -13,6 +13,16 @@
 </style>
 </head>
 <body>
+	<div class="head">
+		<hr />
+		<span> <a href="login.jsp">重新登陆 </a></span> <span><a
+			href="servlet/logout"> 注销</a></span> <span style="text-align: rigth">
+			<a href="add.jsp"> 新增</a>
+		</span> <br />
+		<hr />
+		<br /> <br />
+	</div>
+
 	<table border="1" cellspacing="0" align="center">
 		<tr>
 			<td>员工编号</td>
@@ -35,17 +45,17 @@
 			<td><%=emp.getEmpno()%></td>
 			<td><%=emp.getEname()%></td>
 			<td><%=emp.getJob()%></td>
-			<td><%=df.format(emp.getHiredate())%></td>
+			<td><%=emp.getHiredate() == null ? "" : df.format(emp.getHiredate())%></td>
 			<td><%=emp.getSal()%></td>
 			<td><a href="servlet/delEmp?empno=<%=emp.getEmpno()%>">删除</a></td>
 			<td><a href="servlet/updateEmp?empno=<%=emp.getEmpno()%>">修改</a></td>
-			
+
 		</tr>
 		<%
 		    }
 		%>
 	</table>
-	<a href="servlet/addEmp">新增</a>
+
 
 </body>
 </html>

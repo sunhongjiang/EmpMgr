@@ -6,7 +6,6 @@ package com.cheer.empmgrsystem.dao.impl;
 
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -40,32 +39,28 @@ public class EmpDaoImpl implements EmpDao
     {
         Connection conn = DBHelper.getInstance().getConnection();
 
-        String sql = "INSERT INTO emp VALUES(?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO emp(empno, ename, job, sal) VALUES(?, ?, ?, ?)";
 
         PreparedStatement ps = null;
-     
+        
+        int result = 0;
+
         try
         {
             ps = conn.prepareStatement(sql);
 
             ps.setInt(1, emp.getEmpno());
-            
-            ps.setString(2, emp.getEname());
-            
-            ps.setString(3, emp.getJob());
-            
-            ps.setInt(4, emp.getMgr());
-            
-            ps.setDate(5, (Date)emp.getHiredate());
-            
-            ps.setDouble(6, emp.getSal());
-            
-            ps.setDouble(7, emp.getComm());
-            
-            ps.setObject(8, emp.getDept());
 
+            ps.setString(2, emp.getEname());
+
+            ps.setString(3, emp.getJob());
+
+            ps.setDouble(4, emp.getSal());
+            
+            result = ps.executeUpdate();
             LOGGER.debug(sql);
-          
+            LOGGER.info("新增了{}条数据", result);
+
         }
         catch (SQLException e)
         {
@@ -120,7 +115,7 @@ public class EmpDaoImpl implements EmpDao
     {
         Connection conn = DBHelper.getInstance().getConnection();
 
-        String sql = "update emp set ename = ? where empno = ?;";
+        String sql = "update emp set ename = ?, job = ?, sal = ? where empno = ?;";
 
         PreparedStatement ps = null;
 
@@ -128,22 +123,26 @@ public class EmpDaoImpl implements EmpDao
         try
         {
             ps = conn.prepareStatement(sql);
- 
+
             ps.setString(1, emp.getEname());
             
-            ps.setInt(2, emp.getEmpno());
+            ps.setString(2, emp.getJob());
             
-//            ps.setString(3, emp.getJob());
-//            
-//            ps.setInt(4, emp.getMgr());
-//            
-//            ps.setDate(5, (Date)emp.getHiredate());
-//            
-//            ps.setDouble(6, emp.getSal());
-//            
-//            ps.setDouble(7, emp.getComm());
-//            
-//            ps.setObject(8, emp.getDept());
+            ps.setDouble(3, emp.getSal());
+            
+            ps.setInt(4, emp.getEmpno());
+
+            // ps.setString(3, emp.getJob());
+            //
+            // ps.setInt(4, emp.getMgr());
+            //
+            // ps.setDate(5, (Date)emp.getHiredate());
+            //
+            // ps.setDouble(6, emp.getSal());
+            //
+            // ps.setDouble(7, emp.getComm());
+            //
+            // ps.setObject(8, emp.getDept());
 
             result = ps.executeUpdate();
 

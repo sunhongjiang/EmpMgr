@@ -34,16 +34,17 @@ public class UpdateEmpServlet extends HttpServlet
         IOException
     {
         LOGGER.info("doGet method is invoked...");
-        String empno = request.getParameter("empno");
 
         EmpService empService = (EmpService)this.getServletContext().getAttribute("empService");
 
         Emp emp = new Emp();
-        emp.setEmpno(Integer.valueOf(empno));
+        emp.setEname(request.getParameter("ename"));
+        emp.setJob(request.getParameter("job"));
+        emp.setSal(Double.valueOf(request.getParameter("sal")));
 
         empService.update(emp);
         
-        response.sendRedirect("../update.jsp");
+        response.sendRedirect("../index.jsp");
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response)

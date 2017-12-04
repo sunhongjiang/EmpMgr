@@ -1,17 +1,14 @@
+<!-- pageEncoding是jsp文件本身的编码格式，因为容器把jsp文件转化成java文件前，必须要知道jsp文件的编码格式 -->
+<!-- contentType是服务端相应客户端的编码格式 -->
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ page import="java.util.*"%>
+<%@ page import="java.util.*" %>
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<title>登录页面</title>
+<title>hello.jsp</title>
 <style type="text/css">
-.container {
-	text-align: center;
-	position: relative;
-	top: 100px;
-}
+
 </style>
 <script type="text/javascript" src="./scripts/jquery-3.2.1.js"></script>
 <script type="text/javascript">
@@ -49,17 +46,24 @@
 	</div>
 
 	<div class="container">
-		<!-- servlet对应的url -->
-		<form action="<%=request.getContextPath()%>/servlet/login"
-			method="post">
-			<input type="text" name="username" placeholder="请输入用户名"
-				value="<%=session.getAttribute("username") == null ? "" : session.getAttribute(
-                "username").toString()%>" /><br />
-			<input type="password" name="password" placeholder="请输入密码" /><br />
-			<input type="checkbox" name="autoLogin" />下次自动登录<br /> <input
-				type="submit" value="登录" /><span>&nbsp;&nbsp;</span> <input
-				type="reset" value="重置" />
-		</form>
+		<%-- 
+		<%
+			Object value = session.getAttribute("isLogin");
+			if(value == null)
+			{
+			    response.sendRedirect("login.jsp");
+			}else
+			{
+			    if (!(Boolean)value)
+			    {
+			        response.sendRedirect("login.jsp");
+			    }
+			}
+
+		%>--%>
+		欢迎您，<%=session.getAttribute("username") %><br/>
+		欢迎您，${sessionScope.username}<br/>
+		<a href="login.jsp">重新登录</a>&nbsp;&nbsp;<a href="servlet/logout">注销</a>
 	</div>
 </body>
 </html>

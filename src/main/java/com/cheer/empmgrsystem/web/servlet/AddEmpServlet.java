@@ -19,31 +19,37 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+
 import com.cheer.empmgrsystem.domain.Emp;
 import com.cheer.empmgrsystem.service.EmpService;
 
-@WebServlet(name = "addEmp", urlPatterns = {"/servlet/addEmp"})
+@WebServlet("/servlet/addEmp")
 public class AddEmpServlet extends HttpServlet
 {
     private static final Logger LOGGER = LogManager.getLogger(AddEmpServlet.class);
 
     private static final long serialVersionUID = 1L;
-
+    
+    @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
         throws ServletException,
         IOException
     {
         LOGGER.info("doGet method is invoked...");
-       
         EmpService empService = (EmpService)this.getServletContext().getAttribute("empService");
-
+        
         Emp emp = new Emp();
-
+          
+        emp.setEmpno(Integer.valueOf(request.getParameter("empno")));
+        emp.setEname(request.getParameter("ename"));
+        emp.setJob(request.getParameter("job"));
+        emp.setSal(Double.valueOf(request.getParameter("sal")));
         empService.save(emp);
         
-        response.sendRedirect("../add.jsp");
+        response.sendRedirect("../index.jsp");
     }
-
+    
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
         throws ServletException,
         IOException
